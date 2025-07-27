@@ -19,12 +19,17 @@ const CommitSchema = new Schema({
         ref: 'Project'
     },
     nodes: {
-        type: Array,
+        type: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Node'
+            }
+        ],
         required: true
     },
     created_at: {
         type: Date,
-        default: Date.now()
+        default: Date.now
     }
 })
 

@@ -21,6 +21,9 @@ router.post('/api/project/files', controllers.getFiles)
 // Create Folder
 router.post('/api/project/folder', controllers.createFolder)
 
+// Parse File
+router.post('/api/project/parse', controllers.parseFile)
+
 const storage = multer.diskStorage({
     destination: async (req, file, cb) => {
         const base = '../storage';
@@ -44,5 +47,8 @@ const upload = multer({
 
 // Upload Files to Project
 router.post('/api/project/upload', upload.array('files'), controllers.updateProject)
+
+// Get Commit Files
+router.post('/api/project/commit', controllers.commitInfo)
 
 module.exports = router;

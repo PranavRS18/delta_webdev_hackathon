@@ -68,7 +68,7 @@ onMounted(() => {
     </Overlay>
     <Button class = "new_project" text = "NEW PROJECT" @click = 'show_create_modal'/>
   </header>
-  <div >
+  <div style = "display: flex; flex-direction: column">
     <router-link :to = '`/project/${project._id}`' class = 'project' v-for = 'project in projects' :key = 'project'>{{ project.name }}</router-link>
   </div>
 </template>

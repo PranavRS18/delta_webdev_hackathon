@@ -4,6 +4,9 @@ const Commit = require("../models/Commit");
 const Node = require('../models/Node');
 
 const sha1 = require('sha1');
+const path = require("path");
+const fs = require("fs/promises");
+const pdfParse = require('pdf-parse');
 
 // Get Projects
 module.exports.getProjects = async (req, res) => {
@@ -88,8 +91,14 @@ module.exports.getProject = async (req, res) => {
             project_id,
         }).lean()
 
+        const commits = await Commit.find({
+            project: project_id,
+        }).populate('user').lean()
+
+        const sorted_commits = commits.sort((commit1, commit2) => String(commit1.created_at).localeCompare(String(commit2.created_at))).reverse()
         return res.status(200).json({
             project,
+            commits: sorted_commits,
             node : node,
             message: 'Successfully Retrieved Project'
         })
@@ -112,10 +121,18 @@ module.exports.getFiles = async (req, res) => {
             parent_id: node,
         }).lean()
 
-        console.log(nodes)
+        const sorted_nodes = nodes.sort((node1, node2) => String(node2.created_at).localeCompare(String(node1.created_at)))
+        const node_names = []
+        const latest_nodes = []
+        sorted_nodes.forEach(node => {
+            if (!node_names.includes(node.name)) {
+                node_names.push(node.name)
+                latest_nodes.push(node)
+            }
+        })
 
         return res.status(200).json({
-            nodes,
+            nodes: latest_nodes,
             message: `Successfully Retrieved Files`
         })
     } catch (err) {
@@ -197,4 +214,48 @@ module.exports.updateProject = async (req, res) => {
     return res.status(200).json({
         message: 'Project Updated'
     })
+}
+
+// Parse Files
+module.exports.parseFile = async (req, res) => {
+    try {
+        const {node} = req.body;
+
+        const file_path = path.resolve(__dirname, '..', '..', 'storage', node.project_id, node.parent_id, node.commit_id, node.name)
+        const ext = path.extname(node.name).toLowerCase();
+
+        let content;
+        if (ext === '.pdf') content = (await pdfParse(await fs.readFile(file_path))).text
+        else content = await fs.readFile(file_path, 'utf8')
+
+        return res.status(200).json({
+            content,
+            message: `Successfully Parsed ${node.name}`,
+        })
+    } catch (err) {
+        return res.status(500).json({
+            message: `Error: ${err.message}`,
+        })
+    }
+}
+
+// Get Commit Info
+module.exports.commitInfo = async (req, res) => {
+    try {
+        const {commit_id} = req.body;
+        if (!commit_id) return res.status(400).json({
+            message: 'Invalid Commit ID'
+        })
+
+        const commit = await Commit.findById(commit_id).populate('nodes').lean();
+
+        return res.status(200).json({
+            commit,
+            message: 'Successfully Retrieved Commit'
+        })
+    } catch (err) {
+        return res.status(500).json({
+            message: `Error: ${err.message}`,
+        })
+    }
 }

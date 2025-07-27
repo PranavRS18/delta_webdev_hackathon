@@ -20,7 +20,7 @@ const upload_file = () => {
   files_form.append('user', store.UID)
   files_form.append('project', props.project._id)
   files_form.append('node', props.curr_node)
-  files_form.append('commit_msg', 'I need to Commit Asap')
+  files_form.append('commit_msg', '<Commit Message Here>')
 
   const commit = sha1(store.UID + props.project + Date.now());
   files_form.append('commit_name', commit)
