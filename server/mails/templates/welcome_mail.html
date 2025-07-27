@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Welcome to {{ appName }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        html, body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9f9f9;
+            padding: 2rem;
+            color: #333333;
+        }
+
+        #template {
+            max-width: 37.5rem;
+            margin: auto;
+            background-color: papayawhip;
+            padding: 2rem;
+            border-radius: 2rem;
+            box-shadow: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.05);
+        }
+
+        h3 {
+            text-align: center;
+            font-size: 1.75rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        h5 {
+            font-size: 1.25rem;
+            color: #34495e;
+            margin-top: 2rem;
+        }
+
+        p, li, div {
+            font-size: 1rem;
+            line-height: 1.75rem;
+        }
+
+        ul {
+            padding-left: 1.25rem;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        a:visited {
+            color: black;
+        }
+
+        .muted {
+            color: #888888;
+            font-style: italic;
+        }
+
+        button {
+            display: block;
+            margin: 2rem auto 0;
+            padding: 0.75rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            font-family: 'Poppins', sans-serif;
+            background-color: #FFD586;
+            border-radius: 2rem;
+            box-shadow: -0.05rem 0.05rem 0.8rem 0 rgba(0, 0, 0, 0.25);
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            max-width: 25rem;
+        }
+
+        button:hover {
+            background-color: #FFC94D;
+        }
+    </style>
+</head>
+<body>
+<div id="template">
+    <h3>Hello, <strong>{{ username }}</strong>!</h3>
+
+    <p>
+        <em>Welcome aboard <strong>{{ appName }}</strong> — your secure and organized home for all your digital files! 📂</em>
+    </p>
+
+    <p>
+        We’re stoked to have you on board. Whether it's documents, photos, or memes you swear are important — you're now part of a smarter, faster, more private cloud storage experience.
+    </p>
+
+    <h5>📁 What You Can Do with {{ appName }}:</h5>
+    <ul>
+        <li>🗃️ Upload and organize your files into folders</li>
+        <li>🔐 Access your files from anywhere securely</li>
+        <li>📤 Share files and folders with your friends or team</li>
+        <li>🧠 Store data smartly with user-specific file hierarchies</li>
+    </ul>
+
+    <div>
+        <h5>📌 <strong>Your Account Details:</strong></h5>
+        <p>
+            <strong>Email:</strong> {{ email }}<br />
+            <strong>Username:</strong> {{ username }}<br />
+            <strong>Registered On:</strong> {{ date }}<br />
+        </p>
+    </div>
+
+    <p>This link will expire in <strong>20 minutes</strong> for security purposes.</p>
+    <a href="{{ link }}"><button>Verify Your {{ appName }} Account</button></a>
+
+    <p class="muted">
+        If you did not sign up for {{ appName }}, feel free to ignore this email — no files were harmed in the making of this template.
+    </p>
+
+    <div>
+        <p>
+            🚀 Thanks again for signing up — let's make file management ridiculously smooth.<br /><br />
+            Cheers,<br />
+            <strong>The {{ appName }} Team</strong><br />
+            📩 {{ supportEmail }}
+        </p>
+    </div>
+</div>
+</body>
+</html>
